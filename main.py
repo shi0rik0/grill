@@ -1,5 +1,5 @@
 import sys
-
+import ass
 import srt
 from PySide6.QtWidgets import QApplication, QDialog
 
@@ -29,10 +29,13 @@ def main():
         subtitle_extractor.extract_subtitle(video_path, track_id, subtitle_path)
     else:
         subtitle_path = select_subtitle_dialog.subtitle
-
-    with open(subtitle_path, encoding='utf-8') as f:
-        subtitle = f.read()
-    subtitle = [MainWidget.SubtitleLine(i.start, i.end, i.content) for i in srt.parse(subtitle)]
+    if subtitle_path[-3:] == "srt":
+        with open(subtitle_path, encoding='utf-8') as f:
+            subtitle = f.read()
+        subtitle = [MainWidget.SubtitleLine(i.start, i.end, i.content) for i in srt.parse(subtitle)]
+    elif subtitle_path[-3:] == "ass":
+        with open(subtitle_path, encoding='utf-8') as f:
+            subtitle = [MainWidget.SubtitleLine(i.start, i.end, i.text) for i in ass.parse(f).events]
     main_widget.late_init(video_path, subtitle)
     main_widget.show()
     sys.exit(app.exec())

@@ -21,7 +21,7 @@ class SelectSubtitleDialog(QDialog):
         self._combo_box.addItems(subtitle_languages)
 
         self._label_1 = QLabel('字幕路径：')
-        self._select_file_edit = SelectFileEdit('字幕文件 (*.srt)')
+        self._select_file_edit = SelectFileEdit('字幕文件 (*.srt *.ass)')
         self._button = create_button('确定', self._on_button_clicked)
 
         self._layout_0 = QHBoxLayout()
